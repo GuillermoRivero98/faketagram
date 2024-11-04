@@ -2,6 +2,7 @@ import { useState } from "react";
 
 interface User {
     username: string;
+    email?: string;
 }
 
 const useAuth = () => {
@@ -11,11 +12,15 @@ const useAuth = () => {
         setUser({ username });
     };
 
+    const register = (username: string, email: string, password: string) => {
+        setUser({ username, email });
+    };
+
     const logout = () => {
         setUser(null);
     };
 
-    return { user, login, logout };
+    return { user, login, logout, register };
 };
 
-export default useAuth; 
+export default useAuth;
