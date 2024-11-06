@@ -5,7 +5,7 @@ import { getPostById } from "../../controllers/postController";
 
 type PostDetailRouteProps = RouteProp<{ params: { postId: string } }, 'params'>;
 
-const PostDetailScreen = () => {
+  const PostDetailScreen = () => {
   const route = useRoute<PostDetailRouteProps>(); 
   const { postId } = route.params; 
   const [post, setPost] = useState<any>(null); 

@@ -5,14 +5,14 @@ import { createPost } from '../../controllers/postController';
 
 const NewPostScreen: React.FC = () => {
   const [caption, setCaption] = useState('');
-  const [image, setImage] = useState(''); // Usa ImageUploader aquí si tienes uno configurado
+  const [image, setImage] = useState('');
   const navigation = useNavigation();
 
   const handleSubmit = async () => {
     try {
       await createPost({ image, caption });
       Alert.alert('Publicación creada', 'Tu publicación ha sido creada con éxito');
-      navigation.goBack(); // Redirige de vuelta al feed
+      navigation.goBack();
     } catch (error) {
       Alert.alert('Error', 'No se pudo crear la publicación');
     }
@@ -26,7 +26,6 @@ const NewPostScreen: React.FC = () => {
         onChangeText={setCaption}
         style={styles.input}
       />
-      {/* Puedes añadir un componente para capturar o subir imágenes */}
       <Button title="Crear Publicación" onPress={handleSubmit} />
     </View>
   );

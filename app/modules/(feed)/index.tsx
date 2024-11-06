@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { View, StyleSheet, ActivityIndicator, Alert } from "react-native";
-import { Link } from "expo-router"; // Usa Link en lugar de useNavigation
+import { Link } from "expo-router";
 import FeedTemplate from "../../components/templates/FeedTemplate";
 import { getPosts } from "../../controllers/postController";
 
@@ -29,10 +29,10 @@ const FeedScreen: React.FC = () => {
 
     return (
         <View style={styles.container}>
-            {/* Usa Link para navegar a la pantalla de nueva publicación */}
-            <Link href={{ pathname: "/feed/new" }} style={styles.button}>
+            <Link href="./new" style={styles.button}>
                 Nueva Publicación
             </Link>
+
             <FeedTemplate posts={posts} />
         </View>
     );
