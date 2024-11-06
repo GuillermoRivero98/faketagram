@@ -1,4 +1,5 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useState, useEffect } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 interface User {
   id: string;
@@ -16,17 +17,34 @@ interface AuthContextProps {
 const AuthContext = createContext<AuthContextProps | undefined>(undefined);
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [user, setUser] = useState<User | null>(null); 
+  const [user, setUser] = useState<User | null>(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-  const signIn = (token: string, userData: User) => {
+  useEffect(() => {
+    // Cargar el token y el usuario al iniciar la app
+    const loadAuthData = async () => {
+      const token = await AsyncStorage.getItem('token');
+      const userData = await AsyncStorage.getItem('user');
+      if (token && userData) {
+        setIsAuthenticated(true);
+        setUser(JSON.parse(userData));
+      }
+    };
+    loadAuthData();
+  }, []);
+
+  const signIn = async (token: string, userData: User) => {
     setIsAuthenticated(true);
-    setUser(userData); 
+    setUser(userData);
+    await AsyncStorage.setItem('token', token);
+    await AsyncStorage.setItem('user', JSON.stringify(userData));
   };
 
-  const signOut = () => {
+  const signOut = async () => {
     setIsAuthenticated(false);
-    setUser(null); 
+    setUser(null);
+    await AsyncStorage.removeItem('token');
+    await AsyncStorage.removeItem('user');
   };
 
   return (

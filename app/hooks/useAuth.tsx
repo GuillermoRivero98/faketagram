@@ -1,4 +1,5 @@
 import { useState } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 interface User {
     username: string;
@@ -8,19 +9,24 @@ interface User {
 const useAuth = () => {
     const [user, setUser] = useState<User | null>(null);
 
-    const login = (username: string, password: string) => {
-        setUser({ username });
+    const signIn = async (token: string, userData: User) => {
+        // Almacena el token en AsyncStorage y actualiza el estado de usuario
+        await AsyncStorage.setItem("token", token);
+        setUser(userData);
     };
 
-    const register = (username: string, email: string, password: string) => {
+    const register = async (username: string, email: string, password: string) => {
+        // Implementación del registro (puedes ajustarlo según el backend)
         setUser({ username, email });
     };
 
-    const logout = () => {
+    const logout = async () => {
+        // Limpia el token de AsyncStorage y restablece el estado de usuario
+        await AsyncStorage.removeItem("token");
         setUser(null);
     };
 
-    return { user, login, logout, register };
+    return { user, signIn, logout, register };
 };
 
 export default useAuth;

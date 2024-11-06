@@ -1,15 +1,38 @@
-import React from "react";
-import { View, StyleSheet } from "react-native";
+import React, { useEffect, useState } from "react";
+import { View, StyleSheet, ActivityIndicator, Alert } from "react-native";
+import { Link } from "expo-router"; // Usa Link en lugar de useNavigation
 import FeedTemplate from "../../components/templates/FeedTemplate";
+import { getPosts } from "../../controllers/postController";
 
 const FeedScreen: React.FC = () => {
-    const posts = [
-        { id: '1', image: 'https://example.com/image1.jpg', likes: 100, comments: 5 },
-        { id: '2', image: 'https://example.com/image2.jpg', likes: 150, comments: 10 },
-    ];
+    const [posts, setPosts] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchPosts = async () => {
+            try {
+                const fetchedPosts = await getPosts();
+                setPosts(fetchedPosts);
+            } catch (error) {
+                Alert.alert("Error", "No se pudieron cargar los posts.");
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchPosts();
+    }, []);
+
+    if (loading) {
+        return <ActivityIndicator size="large" color="#0000ff" />;
+    }
 
     return (
         <View style={styles.container}>
+            {/* Usa Link para navegar a la pantalla de nueva publicación */}
+            <Link href={{ pathname: "/feed/new" }} style={styles.button}>
+                Nueva Publicación
+            </Link>
             <FeedTemplate posts={posts} />
         </View>
     );
@@ -19,6 +42,15 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: "#f8f8f8",
+        padding: 16,
+    },
+    button: {
+        marginBottom: 16,
+        padding: 10,
+        backgroundColor: "#007bff",
+        color: "#fff",
+        textAlign: "center",
+        borderRadius: 8,
     },
 });
 

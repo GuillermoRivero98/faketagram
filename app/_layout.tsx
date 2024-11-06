@@ -1,21 +1,19 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
-import { useFonts } from 'expo-font';
+import React from 'react';
 import { Stack } from 'expo-router';
-import * as SplashScreen from 'expo-splash-screen';
-import { useEffect } from 'react';
-import 'react-native-reanimated';
+import FeedScreen from "./modules/(feed)"
+import NewPostScreen from './modules/(feed)/new';
 
-import { useColorScheme } from '@/hooks/useColorScheme';
-
-// Prevent the splash screen from auto-hiding before asset loading is complete.
-SplashScreen.preventAutoHideAsync();
-
-export default function RootLayout() {
-
-
+const RootLayout: React.FC = () => {
   return (
-      <Stack>
-        <Stack.Screen name="HomeScreen" options={{ headerShown: false }} />
-      </Stack>
+    <Stack>
+      <Stack.Screen name="FeedScreen" component={FeedScreen} options={{ headerShown: false }} />
+      <Stack.Screen 
+        name="NewPostScreen" 
+        component={NewPostScreen} 
+        options={{ presentation: 'modal', headerShown: false }} 
+      />
+    </Stack>
   );
-}
+};
+
+export default RootLayout;
