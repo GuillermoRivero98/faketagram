@@ -1,9 +1,10 @@
 import React from "react";
-import { FlatList, StyleSheet, View } from "react-native";
+import { FlatList } from "react-native";
 import Post from "./Post";
+import globalStyles from "../styles/globalStyles";
 
 interface FeedListProps {
-    posts: { id: string; image: string; likes: number; comments: number; }[];
+    posts: { id: string; image: string; likes: number; comments: number }[];
 }
 
 const FeedList: React.FC<FeedListProps> = ({ posts }) => (
@@ -11,14 +12,8 @@ const FeedList: React.FC<FeedListProps> = ({ posts }) => (
         data={posts}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => <Post image={item.image} likes={item.likes} comments={item.comments} />}
-        contentContainerStyle={styles.container}
+        contentContainerStyle={globalStyles.container}
     />
 );
-
-const styles = StyleSheet.create({
-    container: {
-        padding: 10,
-    },
-});
 
 export default FeedList;

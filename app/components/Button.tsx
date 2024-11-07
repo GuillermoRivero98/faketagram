@@ -1,6 +1,6 @@
 import React from "react";
-import { TouchableOpacity, Text, StyleSheet, GestureResponderEvent } from "react-native";
-
+import { TouchableOpacity, Text, GestureResponderEvent } from "react-native";
+import globalStyles from "../styles/globalStyles";
 
 interface ButtonProps {
     text: string;
@@ -9,24 +9,10 @@ interface ButtonProps {
 
 const Button: React.FC<ButtonProps> = ({ text, onPress }) => {
     return (
-        <TouchableOpacity style={styles.button} onPress={onPress}>
-            <Text style={styles.text}>{text}</Text>
+        <TouchableOpacity style={globalStyles.button} onPress={onPress}>
+            <Text style={globalStyles.buttonText}>{text}</Text>
         </TouchableOpacity>
     );
 };
 
-const styles = StyleSheet.create({
-    button: {
-      padding: 12,
-      backgroundColor: '#3498db',
-      borderRadius: 8,
-      alignItems: 'center',
-    },
-    text: {
-      color: '#fff',
-      fontWeight: 'bold',
-    },
-  });
-
-
-  export default Button;
+export default Button;

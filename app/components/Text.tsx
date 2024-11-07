@@ -1,24 +1,17 @@
 import React from "react";
-import { Text as RNText, TextProps as RNTextProps, StyleSheet } from 'react-native';
+import { Text as RNText, TextProps as RNTextProps } from 'react-native';
+import globalStyles from "../styles/globalStyles";
 
 interface TextProps extends RNTextProps {
     children: React.ReactNode;
 }
 
-
 const Text: React.FC<TextProps> = ({ children, style, ...props }) => {
     return (
-        <RNText style={[styles.text, style]} {...props}>
+        <RNText style={[globalStyles.text, style]} {...props}>
             {children}
         </RNText>
     );
 };
-
-const styles = StyleSheet.create({
-    text: {
-        fontSize: 16,
-        color: 'black',
-    },
-});
 
 export default Text;

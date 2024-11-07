@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button, Alert } from 'react-native';
-import { deletePost } from '../../controllers/postController';
+import { deletePost } from '../controllers/postController';
 
 interface DeletePostButtonProps {
   postId: string;

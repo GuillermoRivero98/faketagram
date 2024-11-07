@@ -1,7 +1,8 @@
 import React from "react";
-import { View, StyleSheet } from "react-native";
+import { View } from "react-native";
 import Icon from "./Icon";
 import Text from "./Text";
+import globalStyles from "../styles/globalStyles";
 
 interface PostFooterProps {
     likes: number;
@@ -9,25 +10,12 @@ interface PostFooterProps {
 }
 
 const PostFooter: React.FC<PostFooterProps> = ({ likes, comments }) => (
-    <View style={styles.footer}>
-        <Icon name="heart" style={styles.icon} />
-        <Text style={styles.text}>{likes} likes</Text>
-        <Icon name="comment" style={styles.icon} />
-        <Text style={styles.text}>{comments} comments</Text>
+    <View style={globalStyles.footer}>
+        <Icon name="heart" style={globalStyles.footerText} />
+        <Text style={globalStyles.footerText}>{likes} likes</Text>
+        <Icon name="comment" style={globalStyles.footerText} />
+        <Text style={globalStyles.footerText}>{comments} comments</Text>
     </View>
 );
-
-const styles = StyleSheet.create({
-    footer: {
-        flexDirection: 'row',
-        alignItems: 'center',
-    },
-    icon: {
-        marginRight: 5,
-    },
-    text: {
-        fontWeight: 'bold',
-    },
-});
 
 export default PostFooter;
