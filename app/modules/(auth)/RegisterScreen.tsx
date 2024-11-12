@@ -2,18 +2,30 @@ import React, { useState } from "react";
 import { View, StyleSheet, Alert } from "react-native";
 import Input from "../../components/Input";
 import Button from "../../components/Button";
-import useAuth from "../../hooks/useAuth";
+import { useAuth } from "../../hooks/useAuth";
 
 const RegisterScreen: React.FC = () => {
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
-    const { signIn } = useAuth(); // Cambiamos a `signIn` para autenticación automática después del registro
+    const { signIn } = useAuth();
 
     const handleRegister = async () => {
+        if (!username || !email || !password || !confirmPassword) {
+            Alert.alert("Error", "Todos los campos son obligatorios.");
+            return;
+        }
+        if (!email.includes("@")) {
+            Alert.alert("Error", "Introduce un email válido.");
+            return;
+        }
+        if (password.length < 8) {
+            Alert.alert("Error", "La contraseña debe tener al menos 8 caracteres.");
+            return;
+        }
         if (password !== confirmPassword) {
-            Alert.alert("Error", "Las contraseñas no coinciden");
+            Alert.alert("Error", "Las contraseñas no coinciden.");
             return;
         }
 
@@ -26,14 +38,13 @@ const RegisterScreen: React.FC = () => {
             const data = await response.json();
 
             if (response.ok && data.token && data.user) {
-                // Llama a signIn para autenticar automáticamente después del registro
                 await signIn(data.token, data.user);
-                Alert.alert("Registration successful");
+                Alert.alert("Registro exitoso");
             } else {
-                Alert.alert("Registration failed", data.message || "An error occurred");
+                Alert.alert("Error en el registro", data.message || "Ocurrió un error");
             }
         } catch (error) {
-            Alert.alert("Error", "Could not register. Try again later.");
+            Alert.alert("Error", "No se pudo completar el registro. Intenta nuevamente.");
         }
     };
 

@@ -4,22 +4,33 @@ import { Link } from "expo-router";
 import FeedTemplate from "../../components/templates/FeedTemplate";
 import { getPosts } from "../../controllers/postController";
 
+interface Post {
+    id: string;
+    image: string;
+    date: string;
+    caption: string;
+    likes: number;
+    comments: number;
+}
+
 const FeedScreen: React.FC = () => {
-    const [posts, setPosts] = useState([]);
+    const [posts, setPosts] = useState<Post[]>([]);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const fetchPosts = async () => {
             try {
-                const fetchedPosts = await getPosts();
-                setPosts(fetchedPosts);
+                const fetchedPosts: Post[] = await getPosts();
+                const sortedPosts = fetchedPosts.sort(
+                    (a: Post, b: Post) => new Date(b.date).getTime() - new Date(a.date).getTime()
+                );
+                setPosts(sortedPosts);
             } catch (error) {
                 Alert.alert("Error", "No se pudieron cargar los posts.");
             } finally {
                 setLoading(false);
             }
         };
-
         fetchPosts();
     }, []);
 
@@ -32,7 +43,6 @@ const FeedScreen: React.FC = () => {
             <Link href="./new" style={styles.button}>
                 Nueva Publicación
             </Link>
-
             <FeedTemplate posts={posts} />
         </View>
     );
