@@ -1,14 +1,15 @@
 import React, { useEffect } from 'react';
-import { Stack, useRouter, router } from 'expo-router';
+import { Stack, useRouter } from 'expo-router';
 import { useAuth } from '../../hooks/useAuth';
 import { ROUTES } from "../../routes/Routes";
+import * as Linking from 'expo-linking';
 
 const AuthLayout: React.FC = () => {
     const { isAuthenticated } = useAuth();
 
     useEffect(() => {
         if (isAuthenticated) {
-            router.navigate(ROUTES.FEED);
+            Linking.openURL(ROUTES.FEED);
         }
     }, [isAuthenticated]);
 
