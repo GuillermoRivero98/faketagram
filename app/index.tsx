@@ -3,7 +3,6 @@ import { StyleSheet, Text, View, FlatList, ActivityIndicator } from 'react-nativ
 import { getPosts } from './controllers/postController';
 import Post from './components/Post';
 
-// Definimos el tipo de los datos que representa una publicación
 interface PostType {
   id: string;
   image: string;

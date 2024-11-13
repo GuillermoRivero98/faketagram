@@ -3,7 +3,7 @@ import { View, StyleSheet } from "react-native";
 import Input from "../../components/Input";
 import Button from "../../components/Button";
 import Text from "../../components/Text";
-import useAuth from "../../hooks/useAuth"; 
+import {useAuth} from "../../hooks/useAuth"; 
 
 const ProfileScreen: React.FC = () => {
     const { user } = useAuth(); 
