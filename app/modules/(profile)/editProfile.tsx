@@ -1,20 +1,24 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, Alert } from 'react-native'; 
-import { useAuth }from "../../context/AuthContext";
+import React, { useState, useEffect } from "react";
+import { View, TextInput, Button, StyleSheet, Alert, Text } from "react-native"; 
+import { useAuth } from "../../context/AuthContext";
 import { getUserProfile, updateUserProfile } from '../../controllers/userController';
 
 const EditProfileScreen = () => {
-  const { user } = useAuth(); 
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
+  const { user, setUser } = useAuth(); 
+  const [name, setName] = useState(user?.name || '');  // Cambiado de `username` a `name`
+  const [email, setEmail] = useState(user?.email || '');
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchUserProfile = async () => {
       if (user) {
-        const profile = await getUserProfile(user.id); 
-        setName(profile.name);
-        setEmail(profile.email);
+        try {
+          const profile = await getUserProfile(user.id); 
+          setName(profile.name);
+          setEmail(profile.email);
+        } catch (error) {
+          Alert.alert("Error", "No se pudo cargar el perfil.");
+        }
       }
       setLoading(false);
     };
@@ -29,7 +33,8 @@ const EditProfileScreen = () => {
     }
 
     try {
-      await updateUserProfile(user.id, { name, email });
+      const updatedUser = await updateUserProfile(user.id, { name, email });
+      setUser(updatedUser); // Actualiza el contexto del usuario
       Alert.alert('Éxito', 'Perfil actualizado con éxito'); 
     } catch (error) {
       console.error('Error al actualizar el perfil:', error);

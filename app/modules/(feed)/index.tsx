@@ -3,6 +3,7 @@ import { View, StyleSheet, ActivityIndicator, Alert } from "react-native";
 import { Link } from "expo-router";
 import FeedTemplate from "../../components/templates/FeedTemplate";
 import { getPosts } from "../../controllers/postController";
+import ProtectedRoute from "../../routes/ProtectedRoute"; // Ajusta la ruta según tu estructura
 
 interface Post {
     id: string;
@@ -39,12 +40,14 @@ const FeedScreen: React.FC = () => {
     }
 
     return (
-        <View style={styles.container}>
-            <Link href="./new" style={styles.button}>
-                Nueva Publicación
-            </Link>
-            <FeedTemplate posts={posts} />
-        </View>
+        <ProtectedRoute>
+            <View style={styles.container}>
+                <Link href="./new" style={styles.button}>
+                    Nueva Publicación
+                </Link>
+                <FeedTemplate posts={posts} />
+            </View>
+        </ProtectedRoute>
     );
 };
 
