@@ -1,5 +1,4 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-
 const API_URL = 'http://localhost:3001/api/posts';
 
 const getAuthToken = async () => {
@@ -13,14 +12,11 @@ export const getComments = async (postId: string) => {
     const response = await fetch(`${API_URL}/${postId}/comments`, {
       headers: { Authorization: `Bearer ${token}` },
     });
-
-    if (!response.ok) {
-      throw new Error("Error al obtener los comentarios");
-    }
-
-    return await response.json();
+    const data = await response.json();
+    if (!response.ok) throw new Error(data.message || 'Error al obtener comentarios');
+    return data;
   } catch (error) {
-    console.error("Error al obtener los comentarios:", error);
+    console.error("Error al obtener comentarios:", error);
     throw error;
   }
 };
@@ -37,19 +33,16 @@ export const addComment = async (postId: string, content: string) => {
       },
       body: JSON.stringify({ content }),
     });
-
-    if (!response.ok) {
-      throw new Error("Error al agregar el comentario");
-    }
-
-    return await response.json();
+    const data = await response.json();
+    if (!response.ok) throw new Error(data.message || 'Error al añadir comentario');
+    return data;
   } catch (error) {
-    console.error("Error al agregar el comentario:", error);
+    console.error("Error al añadir comentario:", error);
     throw error;
   }
 };
 
-// Actualizar un comentario en una publicación
+// Actualizar un comentario
 export const updateComment = async (postId: string, commentId: string, content: string) => {
   const token = await getAuthToken();
   try {
@@ -61,19 +54,16 @@ export const updateComment = async (postId: string, commentId: string, content: 
       },
       body: JSON.stringify({ content }),
     });
-
-    if (!response.ok) {
-      throw new Error("Error al actualizar el comentario");
-    }
-
-    return await response.json();
+    const data = await response.json();
+    if (!response.ok) throw new Error(data.message || 'Error al actualizar comentario');
+    return data;
   } catch (error) {
-    console.error("Error al actualizar el comentario:", error);
+    console.error("Error al actualizar comentario:", error);
     throw error;
   }
 };
 
-// Eliminar un comentario de una publicación
+// Eliminar un comentario
 export const deleteComment = async (postId: string, commentId: string) => {
   const token = await getAuthToken();
   try {
@@ -81,11 +71,7 @@ export const deleteComment = async (postId: string, commentId: string) => {
       method: "DELETE",
       headers: { Authorization: `Bearer ${token}` },
     });
-
-    if (!response.ok) {
-      throw new Error("Error al eliminar el comentario");
-    }
-
+    if (!response.ok) throw new Error('Error al eliminar el comentario');
     return true;
   } catch (error) {
     console.error("Error al eliminar el comentario:", error);
