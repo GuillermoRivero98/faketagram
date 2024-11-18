@@ -5,7 +5,7 @@ import { getUserProfile, updateUserProfile } from '../../controllers/userControl
 
 const EditProfileScreen = () => {
   const { user, setUser } = useAuth(); 
-  const [name, setName] = useState(user?.name || '');  // Cambiado de `username` a `name`
+  const [name, setName] = useState(user?.username || ''); 
   const [email, setEmail] = useState(user?.email || '');
   const [loading, setLoading] = useState(true);
 
@@ -13,7 +13,7 @@ const EditProfileScreen = () => {
     const fetchUserProfile = async () => {
       if (user) {
         try {
-          const profile = await getUserProfile(user.id); 
+          const profile = await getUserProfile(user._id); 
           setName(profile.name);
           setEmail(profile.email);
         } catch (error) {
@@ -33,8 +33,8 @@ const EditProfileScreen = () => {
     }
 
     try {
-      const updatedUser = await updateUserProfile(user.id, { name, email });
-      setUser(updatedUser); // Actualiza el contexto del usuario
+      const updatedUser = await updateUserProfile(user._id, { name, email });
+      setUser(updatedUser);
       Alert.alert('Éxito', 'Perfil actualizado con éxito'); 
     } catch (error) {
       console.error('Error al actualizar el perfil:', error);
