@@ -1,44 +1,51 @@
 import React, { useState, useEffect } from "react";
-import { View, TextInput, Button, StyleSheet, Alert, Text } from "react-native"; 
+import { View, TextInput, Button, StyleSheet, Alert, Text } from "react-native";
 import { useAuth } from "../../context/AuthContext";
-import { getUserProfile, updateUserProfile } from '../../controllers/userController';
+import { getUserProfile, updateUserProfile } from "../../controllers/userController";
 
 const EditProfileScreen = () => {
   const { user, setUser } = useAuth(); 
-  const [name, setName] = useState(user?.username || ''); 
-  const [email, setEmail] = useState(user?.email || '');
+  const [username, setUsername] = useState(""); 
+  const [profilePicture, setProfilePicture] = useState("");
+  const [description, setDescription] = useState("");
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchUserProfile = async () => {
-      if (user) {
-        try {
-          const profile = await getUserProfile(user._id); 
-          setName(profile.name);
-          setEmail(profile.email);
-        } catch (error) {
-          Alert.alert("Error", "No se pudo cargar el perfil.");
-        }
+      if (!user?._id) return;
+
+      try {
+        const profile = await getUserProfile(user._id); 
+        setUsername(profile.username);
+        setProfilePicture(profile.profilePicture || ""); 
+        setDescription(profile.description || ""); 
+      } catch (error) {
+        Alert.alert("Error", "No se pudo cargar el perfil.");
+      } finally {
+        setLoading(false);
       }
-      setLoading(false);
     };
 
     fetchUserProfile();
   }, [user]);
 
   const handleUpdateProfile = async () => {
-    if (!user) {
-      Alert.alert('Error', 'Usuario no encontrado'); 
+    if (!user?._id) {
+      Alert.alert("Error", "Usuario no encontrado");
       return;
     }
 
     try {
-      const updatedUser = await updateUserProfile(user._id, { name, email });
-      setUser(updatedUser);
-      Alert.alert('Éxito', 'Perfil actualizado con éxito'); 
+      const updatedUser = await updateUserProfile({
+        username,
+        profilePicture,
+        description,
+      });
+      setUser(updatedUser); 
+      Alert.alert("Éxito", "Perfil actualizado con éxito");
     } catch (error) {
-      console.error('Error al actualizar el perfil:', error);
-      Alert.alert('Error', 'Error al actualizar el perfil'); 
+      console.error("Error al actualizar el perfil:", error);
+      Alert.alert("Error", "Error al actualizar el perfil");
     }
   };
 
@@ -48,19 +55,29 @@ const EditProfileScreen = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.label}>Nombre:</Text>
+      <Text style={styles.label}>Nombre de usuario:</Text>
       <TextInput
         style={styles.input}
-        value={name}
-        onChangeText={setName}
+        value={username}
+        onChangeText={setUsername}
       />
-      <Text style={styles.label}>Email:</Text>
+
+      <Text style={styles.label}>Imagen de perfil (URL):</Text>
       <TextInput
         style={styles.input}
-        value={email}
-        onChangeText={setEmail}
-        keyboardType="email-address"
+        value={profilePicture}
+        onChangeText={setProfilePicture}
+        placeholder="URL de la imagen de perfil"
       />
+
+      <Text style={styles.label}>Descripción:</Text>
+      <TextInput
+        style={styles.input}
+        value={description}
+        onChangeText={setDescription}
+        placeholder="Escribe una breve descripción..."
+      />
+
       <Button title="Actualizar Perfil" onPress={handleUpdateProfile} />
     </View>
   );
@@ -77,7 +94,7 @@ const styles = StyleSheet.create({
   },
   input: {
     borderWidth: 1,
-    borderColor: '#ccc',
+    borderColor: "#ccc",
     borderRadius: 5,
     padding: 10,
     marginBottom: 16,
