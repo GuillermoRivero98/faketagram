@@ -1,13 +1,8 @@
 import React, { useState } from "react";
 import { View, TextInput, Button, Alert, StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { createPost, uploadImage } from "../../controllers/postController";
+import { uploadPost } from "../../controllers/postController"; // usamos el controlador consolidado
 import ImageUploader from "../../components/ImageUploader";
-
-interface Post {
-  image: string;
-  caption: string;
-}
 
 const NewPostScreen: React.FC = () => {
   const [caption, setCaption] = useState("");
@@ -21,12 +16,7 @@ const NewPostScreen: React.FC = () => {
     }
 
     try {
-      // Primero sube la imagen y obtiene su URL
-      const uploadResponse = await uploadImage(imageUri);
-      const imageUrl = uploadResponse.url; // Asegúrate de que el backend devuelva la URL de la imagen
-
-      // Luego crea la publicación con la URL de la imagen y el caption
-      await createPost({ image: imageUrl, caption });
+      await uploadPost(imageUri, caption);
       Alert.alert("Publicación creada", "Tu publicación ha sido creada con éxito");
       navigation.goBack();
     } catch (error) {
@@ -36,7 +26,7 @@ const NewPostScreen: React.FC = () => {
 
   return (
     <View style={styles.container}>
-      <ImageUploader onImageSelected={setImageUri} /> {/* Permite al usuario seleccionar una imagen */}
+      <ImageUploader onImageSelected={setImageUri} />
       <TextInput
         placeholder="Escribe una descripción..."
         value={caption}

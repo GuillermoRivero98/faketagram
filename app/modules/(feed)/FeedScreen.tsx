@@ -1,12 +1,13 @@
+// FeedScreen.tsx
 import React, { useEffect, useState } from "react";
 import { View, StyleSheet, ActivityIndicator, Alert } from "react-native";
 import { Link } from "expo-router";
 import FeedTemplate from "../../components/templates/FeedTemplate";
 import { getPosts } from "../../controllers/postController";
-import ProtectedRoute from "../../routes/ProtectedRoute"; // Ajusta la ruta según tu estructura
+import ProtectedRoute from "../../routes/ProtectedRoute";
 
 interface Post {
-    id: string;
+    _id: string;
     image: string;
     date: string;
     caption: string;
@@ -45,7 +46,7 @@ const FeedScreen: React.FC = () => {
                 <Link href="./new" style={styles.button}>
                     Nueva Publicación
                 </Link>
-                <FeedTemplate posts={posts} />
+                <FeedTemplate posts={posts} /> {/* Usamos el template actualizado */}
             </View>
         </ProtectedRoute>
     );

@@ -1,6 +1,6 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const API_URL = 'http://localhost:3001/api/auth';
+const API_URL = 'http://localhost:5001/api/auth';
 
 // Guardar el token JWT en AsyncStorage
 export const saveAuthToken = async (token: string) => {
@@ -21,9 +21,10 @@ export const registerUser = async (userData: { username: string; email: string; 
       body: JSON.stringify(userData),
     });
     const data = await response.json();
-    if (response.ok) {
-      await saveAuthToken(data.token); // Guardar el token si el registro es exitoso
+    if (!response.ok) {
+      throw new Error(data.message || 'Error en el registro');
     }
+    await saveAuthToken(data.token); // Guardar el token si el registro es exitoso
     return data;
   } catch (error) {
     console.error('Error en el registro:', error);
@@ -40,9 +41,10 @@ export const loginUser = async (credentials: { email: string; password: string }
       body: JSON.stringify(credentials),
     });
     const data = await response.json();
-    if (response.ok) {
-      await saveAuthToken(data.token); // Guardar el token si el login es exitoso
+    if (!response.ok) {
+      throw new Error(data.message || 'Error en el inicio de sesión');
     }
+    await saveAuthToken(data.token); // Guardar el token si el login es exitoso
     return data;
   } catch (error) {
     console.error('Error en el login:', error);

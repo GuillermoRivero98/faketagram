@@ -4,7 +4,7 @@ import Post from "../Post";
 
 interface FeedTemplateProps {
     posts: Array<{
-        id: string;
+        _id: string;
         image: string;
         likes: number;
         comments: number;
@@ -16,7 +16,7 @@ const FeedTemplate: React.FC<FeedTemplateProps> = ({ posts }) => {
         <View style={styles.container}>
             {posts.map((post) => (
                 <Post 
-                    key={post.id}
+                    key={post._id} // Cambiado a _id
                     image={post.image}
                     likes={post.likes}
                     comments={post.comments}
