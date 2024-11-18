@@ -7,7 +7,6 @@ const RootLayout: React.FC = () => {
     <Stack>
       <Stack.Screen
         name={'index'}
-        //options={{ title: "Registrarse", headerShown: false }}
       />
       <Stack.Screen
         name={ROUTES.LOGIN}
