@@ -1,6 +1,6 @@
 import React from "react";
 import { TouchableOpacity, Text, GestureResponderEvent } from "react-native";
-import globalStyles from "../styles/globalStyles";
+import globalStyles from "../styles/GlobalStyles";
 
 interface ButtonProps {
     text: string;

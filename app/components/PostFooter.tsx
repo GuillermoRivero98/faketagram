@@ -2,7 +2,7 @@ import React from "react";
 import { View } from "react-native";
 import Icon from "./Icon";
 import Text from "./Text";
-import globalStyles from "../styles/globalStyles";
+import globalStyles from "../styles/GlobalStyles";
 
 interface PostFooterProps {
     likes: number;

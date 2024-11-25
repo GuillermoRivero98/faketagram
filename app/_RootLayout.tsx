@@ -1,27 +1,43 @@
-import React from 'react';
-import { Stack } from 'expo-router';
-import { ROUTES } from './routes/Routes';
+import React from "react";
+import { Stack } from "expo-router";
+import { ROUTES } from "./routes/Routes";
+import { AuthProvider } from "./context/AuthContext";
 
 const RootLayout: React.FC = () => {
   return (
-    <Stack>
-      <Stack.Screen
-        name={'index'}
-      />
-      <Stack.Screen
-        name={ROUTES.LOGIN}
-        options={{ title: "Iniciar Sesión", headerShown: false }}
-      />
-      <Stack.Screen
-        name={ROUTES.REGISTER}
-        options={{ title: "Registrarse", headerShown: false }}
-      />
-
-      <Stack.Screen name={ROUTES.FEED} options={{ headerShown: false }} />
-      <Stack.Screen name={`${ROUTES.FEED}/new`} options={{ presentation: 'modal', title: "Nueva Publicación", headerShown: true }} />
-      <Stack.Screen name={ROUTES.PROFILE} options={{ title: "Perfil", headerShown: true }} />
-      <Stack.Screen name={ROUTES.POST_DETAIL} options={{ title: "Detalles de la Publicación", headerShown: true }} />
-    </Stack>
+    <AuthProvider>
+      <Stack>
+        <Stack.Screen
+          name={ROUTES.HOME}
+          options={{ title: "Home", headerShown: false }}
+        />
+        <Stack.Screen
+          name={ROUTES.LOGIN}
+          options={{ title: "Iniciar Sesión", headerShown: false }}
+        />
+        <Stack.Screen
+          name={ROUTES.REGISTER}
+          options={{ title: "Registrarse", headerShown: false }}
+        />
+        <Stack.Screen name={ROUTES.FEED} options={{ headerShown: false }} />
+        <Stack.Screen
+          name={`${ROUTES.FEED}/new`}
+          options={{
+            presentation: "modal",
+            title: "Nueva Publicación",
+            headerShown: true,
+          }}
+        />
+        <Stack.Screen
+          name={ROUTES.PROFILE}
+          options={{ title: "Perfil", headerShown: true }}
+        />
+        <Stack.Screen
+          name={ROUTES.POST_DETAIL}
+          options={{ title: "Detalles de la Publicación", headerShown: true }}
+        />
+      </Stack>
+    </AuthProvider>
   );
 };
 

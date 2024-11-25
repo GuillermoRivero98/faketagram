@@ -1,7 +1,7 @@
 import React from "react";
 import { FlatList } from "react-native";
 import Post from "./Post";
-import globalStyles from "../styles/globalStyles";
+import globalStyles from "../styles/GlobalStyles";
 
 interface FeedListProps {
     posts: { id: string; image: string; likes: number; comments: number; caption: string; date: string }[];
