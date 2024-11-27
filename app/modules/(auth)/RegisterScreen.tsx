@@ -4,6 +4,7 @@ import Input from "../../components/Input";
 import Button from "../../components/Button";
 import { useAuth } from "../../context/AuthContext";
 import { registerUser } from "../../controllers/authController";
+import { router } from "expo-router";
 
 const RegisterScreen: React.FC = () => {
   const [username, setUsername] = useState("");
@@ -32,7 +33,12 @@ const RegisterScreen: React.FC = () => {
 
     try {
       const data = await registerUser({ username, email, password });
-      await signIn(data.token, data.user);
+      await signIn(data.token, {
+        _id: data._id,
+        username: data.username,
+        email: data.email,
+      });
+      router.navigate("../(feed)/FeedScreen")
       Alert.alert("Registro exitoso");
     } catch (error: any) {
       Alert.alert("Error", error.message || "No se pudo completar el registro");
