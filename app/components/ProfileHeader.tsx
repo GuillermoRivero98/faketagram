@@ -3,7 +3,7 @@ import { View } from "react-native";
 import Image from "./Image";
 import Text from "./Text";
 import Button from "./Button";
-import globalStyles from "../styles/globalStyles";
+import globalStyles from "../styles/GlobalStyles";
 
 interface ProfileHeaderProps {
     username: string;

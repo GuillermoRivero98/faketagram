@@ -4,7 +4,7 @@ import Image from "./Image";
 import Text from "./Text";
 import UserAvatar from "./UserAvatar";
 import PostFooter from "./PostFooter";
-import globalStyles from "../styles/globalStyles";
+import globalStyles from "../styles/GlobalStyles";
 
 interface CardProps {
     imageUrl: string;

@@ -1,6 +1,6 @@
 import React from 'react';
 import { TextInput, TextInputProps } from 'react-native';
-import globalStyles from "../styles/globalStyles";
+import globalStyles from "../styles/GlobalStyles";
 
 interface InputProps extends TextInputProps {}
 

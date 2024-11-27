@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Image, Text, StyleSheet } from "react-native";
 import PostFooter from "./PostFooter";
-import globalStyles from "../styles/globalStyles";
+import globalStyles from "../styles/GlobalStyles";
 
 // Definimos el tipo de los datos que representa una publicación
 interface PostProps {

@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Text, ActivityIndicator } from "react-native";
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../context/AuthContext";  // Importa el hook useAuth
 import { useNavigation, CommonActions } from "@react-navigation/native";
 import { ROUTES } from "../routes/Routes";
 
@@ -9,7 +9,7 @@ interface ProtectedRouteProps {
 }
 
 const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated } = useAuth();  // Usamos useAuth aquí
   const navigation = useNavigation();
 
   React.useEffect(() => {

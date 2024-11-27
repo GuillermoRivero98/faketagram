@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { View, Button, Image, Alert } from "react-native";
 import * as ImagePicker from "expo-image-picker";
-import globalStyles from "../styles/globalStyles";
+import globalStyles from "../styles/GlobalStyles";
 
 interface ImageUploaderProps {
     onImageSelected: (uri: string | null) => void;
