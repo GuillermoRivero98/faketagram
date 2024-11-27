@@ -15,7 +15,13 @@ interface AuthContextProps {
   logout: () => Promise<void>;
 }
 
-const AuthContext = createContext<AuthContextProps | null>(null);
+export const AuthContext = createContext<AuthContextProps>({
+  user: null, // Initial user state
+  setUser: () => {}, // Placeholder function, you can provide a no-op function for now
+  isAuthenticated: false, // Initial authentication state
+  signIn: async () => {}, // Placeholder function
+  logout: async () => {} // Placeholder function
+});
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [user, setUserState] = useState<User | null>(null);

@@ -1,6 +1,6 @@
 import { getAuthToken } from './authController';
 
-const USER_API_URL = 'http://localhost:3001/api/user';
+const USER_API_URL = 'http://192.168.0.112:3001/api/user';
 
 // Obtener perfil de usuario
 export const getUserProfile = async (userId: string) => {

@@ -1,12 +1,11 @@
 
 export const ROUTES = {
-  HOME: "/",
-  LOGIN: "/auth/LoginScreen",
-  REGISTER: "/auth/RegisterScreen",
-  FEED: "/feed/FeedScreen",
-  PROFILE: "/profile/ProfileScreen",
-  EDIT_PROFILE: "/profile/edit",
-  POST_DETAIL: "/feed/:postId",
+  LOGIN: "modules/(auth)/LoginScreen",
+  REGISTER: "modules/(auth)/RegisterScreen",
+  FEED: "modules/(feed)/FeedScreen",
+  PROFILE: "modules/(profile)/ProfileScreen",
+  EDIT_PROFILE: "modules/(profile)/edit",
+  POST_DETAIL: "modules/(feed)/:postId",
 };
 
   export function getRoute(routeKey: keyof typeof ROUTES, params?: Record<string, string>): string {

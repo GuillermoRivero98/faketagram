@@ -1,16 +1,31 @@
-import React from "react";
-import { Stack } from "expo-router";
+import React, { useContext, useEffect } from "react";
+import { Stack, useRouter } from "expo-router";
 import { ROUTES } from "./routes/Routes";
-import { AuthProvider } from "./context/AuthContext";
+import { AuthContext, AuthProvider } from "./context/AuthContext";
 
-const RootLayout: React.FC = () => {
+const Layout = () => {
+
+  const authContext = useContext(AuthContext);
+  const router = useRouter();
+
+  // Si no se encuentra el contexto, renderizamos un mensaje o la UI de carga
+  if (!authContext) {
+    console.error("AuthContext no está disponible.");
+  }
+
+  const { isAuthenticated } = authContext;
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      router.replace(`./${ROUTES.FEED}`);
+    } else {
+      router.replace(`./${ROUTES.REGISTER}`);
+    }
+  }, [isAuthenticated, router]);
+
   return (
     <AuthProvider>
       <Stack>
-        <Stack.Screen
-          name={ROUTES.HOME}
-          options={{ title: "Home", headerShown: false }}
-        />
         <Stack.Screen
           name={ROUTES.LOGIN}
           options={{ title: "Iniciar Sesión", headerShown: false }}
@@ -21,7 +36,7 @@ const RootLayout: React.FC = () => {
         />
         <Stack.Screen name={ROUTES.FEED} options={{ headerShown: false }} />
         <Stack.Screen
-          name={`${ROUTES.FEED}/new`}
+          name={`${ROUTES.FEED}/newPostScreen`}
           options={{
             presentation: "modal",
             title: "Nueva Publicación",
@@ -41,4 +56,6 @@ const RootLayout: React.FC = () => {
   );
 };
 
-export default RootLayout;
+export default Layout;
+
+
